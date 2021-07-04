@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+
+
+<h2 style="text-align: center;">Bert sentence classfier</h2>
+
+
+<div class="container">
+  <form method="post" id="todo-form", type="text" role="form" enctype="application/json">
+  <div class="row">
+    <div class="col-25">
+      <label for="subject">SENTENCE</label>
+    </div>
+    <div class="col-75">
+      <textarea id="subject" name="pass" placeholder="Test your tweet..." style="height:200px"></textarea>
+    </div>
+  </div>
+  <div class="row">
+    <input type="submit" value="submit">
+  </div>
+  </form>
+
+
+  <div class="row">
+    <p class="success ", style="display:none;", id ="successAlert">This text represents a warning.</p>
+  </div>
+  <div class="row">
+    <p class="failuer ", style="display:none;", id ="errorAlert">This text represents a warning.</p>
+  </div>
+
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"
+          integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+          crossorigin="anonymous"></script>
+
+  <script type="text/javascript">
+    $(document).on('submit','#todo-form',function(e)
+                   {
+      console.log('hello');
+      e.preventDefault();
+    $.ajax({
+        type:'POST',
+        url:'/login',
+        data:{
+        subject:$("#subject").val()
+        },
+        success:function(data)
+        {
+          if (data.error == "Negative") {
+            $('#errorAlert').text(data.error).show();
+            $('#successAlert').hide();
+			    }
+          else if (data.error == "Positive"){
+            $('#successAlert').text(data.error).show();
+            $('#errorAlert').hide();
+          }
+        }
+    })
+    });
+  </script>
+
+
+</body>
+</html>
